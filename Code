@@ -1,0 +1,78 @@
+# Password Strength Assessment Tool
+
+import re
+
+def assess_password_strength(password):
+    """
+    Assesses the strength of a password based on various criteria.
+
+    Args:
+        password (str): The password to assess.
+
+    Returns:
+        tuple: A tuple containing the password strength score (int) and a feedback message (str).
+    """
+    score = 0
+    feedback = ""
+
+    # Length
+    if len(password) < 8:
+        feedback += "Password is too short. "
+    elif len(password) >= 12:
+        score += 2
+        feedback += "Good password length. "
+    else:
+        score += 1
+        feedback += "Fair password length. "
+
+    # Uppercase letters
+    if re.search(r"[A-Z]", password):
+        score += 1
+        feedback += "Password contains uppercase letters. "
+    else:
+        feedback += "Password lacks uppercase letters. "
+
+    # Lowercase letters
+    if re.search(r"[a-z]", password):
+        score += 1
+        feedback += "Password contains lowercase letters. "
+    else:
+        feedback += "Password lacks lowercase letters. "
+
+    # Numbers
+    if re.search(r"\d", password):
+        score += 1
+        feedback += "Password contains numbers. "
+    else:
+        feedback += "Password lacks numbers. "
+
+    # Special characters
+    if re.search(r"[!@#$%^&*()_+=-{};:'<>,./?]", password):
+        score += 1
+        feedback += "Password contains special characters. "
+    else:
+        feedback += "Password lacks special characters. "
+
+    # Password strength score
+    if score < 3:
+        feedback += "Weak password."
+    elif score < 5:
+        feedback += "Fair password."
+    else:
+        feedback += "Strong password."
+
+    return score, feedback
+
+def main():
+    print("Password Strength Assessment Tool")
+    print("--------------------------------")
+
+    while True:
+        password = input("Enter a password to assess: ")
+        score, feedback = assess_password_strength(password)
+        print(f"Password strength score: {score}")
+        print(feedback)
+        print()
+
+if __name__ == "__main__":
+    main()
